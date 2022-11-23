@@ -9,14 +9,28 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body onload="initGame()">
+<body cent onload="initGame()">
     <h1> Mine Sweeper </h1>
-    <button onclick="initGame()">😊 </button>
     <table class="game-table">
+        <th> <button onclick="setLevel(4,2)">Beginner</button></th>
+        <th><button onclick="setLevel(8,14)">Medium</button></th>
+        <th><button onclick="setLevel(12,32)">Expert</button></th>
+    </table>
+    <table class="game-header">
+        <th> <button class="restart-button" onclick="initGame()">😊 </button></th>
+        <th>
+            <div class="game-time"> Time Played : 0 </div>
+        </th>
+    </table>
+   
+
+    <table class="game-table">
+
         <tbody class="board"></tbody>
 
     </table>
-
+    <br><br><br><br><br><br><br>
+<footer class="game-table"> developed by IRENE DUCHOVNY</footer>
     <script src="js/main.js"></script>
 
 

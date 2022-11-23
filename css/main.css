@@ -1,43 +1,91 @@
 
 
+ .game-time{
+
+    border: 5px;
+    border-color: black;
+    border-radius: 5px;
+    background-color:rgb(170, 154, 166);
+    height: 35px;
+    width: 150px;
+    font-size: 15px;
+    text-align: center;
+    padding: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+} 
+
+.mine-boom{
+    background-color: rgb(122, 57, 57);
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 2px solid rgb(102, 102, 102);
+}
+
+body{
+    
+   background-color: #B7C4CF;
+}
 
 h1{
-
+    display: flex;
+    justify-content: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 
 }
+
 button{
-margin-left: 70px;
-padding: 10px;
-margin-bottom: 10px;
+display: inline;
+padding: 5px;
 
+
+cursor: pointer;
 }
+
+/* .timer{
+    margin-left: 70px;
+padding: 5px;
+margin-bottom: 5px;
+margin-left: 50%
+
+} */
 /* .board {
     background-color: rgb(0, 0, 0);
     display: flex;
     justify-content: center;
     margin: 80px 10px;
 } */
-
-/* .game-table{
-    height: 500px;
-    width: 500px;
+.game-header{
+    justify-content: center;
+    display: flex;
+}
+.game-table{
+    display: flex;
     
-} */
+    justify-content: center;
+    
+}
 
 .notClickedCell {
+    /* border-radius: 5px; */
     width: 40px;
     height: 40px;
     text-align: center;
-    background-color: rgb(196, 196, 196);
-    border: 2px solid rgb(102, 102, 102);
+    background-color: #D7C0AE;
+    border: 2px solid #EEE3CB;
     cursor: pointer;
+    
 }
 
 .clickedCell{
+    /* border-radius: 5px; */
     width: 40px;
     height: 40px;
     text-align: center;
-    background-color: rgb(170, 55, 132);
+    background-color: #967E76;
     border: 2px solid rgb(102, 102, 102);
     
 }
+
+
