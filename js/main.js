@@ -95,7 +95,7 @@ function renderBoard(board) {
             var className = cell.className
             var cellClass = 'cell-' + i + '-' + j
             if (cell.minesAroundCount === 0 && cell.isShown) {
-                cellContent = cell.iconד
+                cellContent = cell.icon
             } else if (cell.minesAroundCount > 0 && cell.isShown) {
                 cellContent = cell.minesAroundCount
             } else if (cell.isMarked && !cell.isShown) {
@@ -138,7 +138,9 @@ function setMinesNegsCount() {
         }
     }
 }
+function expandShown (gBoard, elCell, i, j){
 
+}
 
 function cellMarked(elcell, i, j) {
     console.log('rightClick', elcell)
@@ -196,6 +198,9 @@ function CellClicked(elCell, i, j) {
             cell.className = 'mine-boom'
             gameOver()
             return
+        }
+        if (cell.icon===EMPTY){
+            expandShown (gBoard, elCell, i, j)
         }
         if (cell.isMarked) {
             gGame.markedCount--
