@@ -93,16 +93,18 @@ function renderBoard(board) {
             var cellContent = EMPTY
             var cell = board[i][j]
             var className = cell.className
-            var cellData = 'data-i="' + i + '" data-j="' + j + '"'
-
+            var cellClass = 'cell-' + i + '-' + j
             if (cell.minesAroundCount === 0 && cell.isShown) {
-                cellContent = cell.icon
+                cellContent = cell.iconד
             } else if (cell.minesAroundCount > 0 && cell.isShown) {
                 cellContent = cell.minesAroundCount
+            } else if (cell.isMarked && !cell.isShown) {
+                cellContent = FLAG
             }
 
-            strHTML += `<td class="${className}" ${cellData}
-            onclick="CellClicked(this,${i},${j})">
+
+            strHTML += `<td class="${className} ${cellClass}"
+            onclick="CellClicked(this,${i},${j})" oncontextmenu="event.preventDefault();cellMarked(this,${i},${j})">
             ${cellContent}</td>`
         }
         strHTML += '</tr>\n'
@@ -136,6 +138,46 @@ function setMinesNegsCount() {
         }
     }
 }
+
+
+function cellMarked(elcell, i, j) {
+    console.log('rightClick', elcell)
+    console.log('i', i)
+    console.log('j', j)
+
+    if (!gGame.isTimeRunning) {
+        gInterval = setInterval(gameTimer, 1000)
+        gGame.isTimeRunning = true
+    }
+    var currCell = gBoard[i][j]
+    if (gGame.isOn && !currCell.isShown) {
+        // render DOM
+        var cellLocation = { i: i, j: j }
+        console.log('cellLocation', cellLocation)
+        // get model cell
+
+
+        // mark cell
+        if (!currCell.isMarked) {
+            currCell.isMarked = true
+            gGame.markedCount++
+            console.log('up', gGame.markedCount)
+            renderCell(cellLocation, FLAG)
+        } else {
+            currCell.isMarked = false
+            gGame.markedCount--
+            console.log('down', gGame.markedCount)
+            renderCell(cellLocation, EMPTY)
+        }
+
+    }
+}
+
+//TODO: ON CLICK:
+// TODO: CALL expandShown (board, elCell, i, j) when cell EMPTY
+//TODO:win when all the mines are flagged + all cells shown
+//TODO: bonus- recursion
+//TODO: win state (go through gGame)
 function CellClicked(elCell, i, j) {
 
     if (!gGame.isTimeRunning) {
@@ -145,24 +187,27 @@ function CellClicked(elCell, i, j) {
     //gGame.isOn=true
     const cell = gBoard[i][j]
     // console.log('cell',cell )
-    if (gGame.isOn) {
-
+    if (gGame.isOn && !cell.isShown) {
         cell.isShown = true
+        gGame.shownCount++
+        console.log('gGame.shownCount',gGame.shownCount )
         cell.className = 'clickedCell'
         if (cell.isMine) {
             cell.className = 'mine-boom'
             gameOver()
+            return
+        }
+        if (cell.isMarked) {
+            gGame.markedCount--
+            console.log('down after left click', gGame.markedCount)
+            cell.isMarked = false
+
         }
         renderBoard(gBoard)
 
-
     }
-    //     //TODO: ON CLICK:
-    //     //TODO: START TIMER,
-    // TODO: CALL expandShown (board, elCell, i, j) when cell EMPTY
-    //TODO: RENDERCELL?
-    //TODO: flags
-    //TODO:win when all the mines are flagged + all cells shown
+
+
     console.log('elCell', elCell)
 }
 
@@ -203,4 +248,16 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
+function getClassName(location) {
+    const cellClass = 'cell-' + location.i + '-' + location.j
+    return cellClass
+}
+function renderCell(location, value) {
+    const cellSelector = '.' + getClassName(location) // cell-i-j
+    const elCell = document.querySelector(cellSelector)
+    elCell.innerHTML = value
+}
+
+
 
