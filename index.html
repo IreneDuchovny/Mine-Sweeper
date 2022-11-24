@@ -12,21 +12,28 @@
 <body cent onload="initGame()">
     <h1> Mine Sweeper </h1>
     <table class="game-table">
-        <th> <button onclick="setLevel(4,2)">Beginner</button></th>
-        <th><button onclick="setLevel(8,14)">Medium</button></th>
-        <th><button onclick="setLevel(12,32)">Expert</button></th>
+        <th> <button onclick="setLevel(4,2,1)">Beginner</button></th>
+        <th><button onclick="setLevel(8,14,3)">Medium</button></th>
+        <th><button onclick="setLevel(12,32,3)">Expert</button></th>
     </table>
     <table class="game-header">
+        <th> <div class="lives" > </div></th>
         <th> <button class="restart-button" onclick="initGame()">😊 </button></th>
         <th>
-            <div class="game-time"> Time Played : 0 </div>
+            <div class="game-time"> Time : 0 </div>
         </th>
+       
     </table>
    
 
     <table class="game-table">
 
         <tbody class="board"></tbody>
+
+    </table>
+
+    <table class="game-header">
+        <th><div class="flags-count">14 🚩</div></th>
 
     </table>
     <br><br><br><br><br><br><br>
