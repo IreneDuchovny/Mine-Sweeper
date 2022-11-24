@@ -17,14 +17,16 @@
         <th><button onclick="setLevel(12,32,3)">Expert</button></th>
     </table>
     <table class="game-header">
-        <th> <div class="lives" > </div></th>
+        <th>
+            <div class="lives"> </div>
+        </th>
         <th> <button class="restart-button" onclick="initGame()">😊 </button></th>
         <th>
             <div class="game-time"> Time : 0 </div>
         </th>
-       
+
     </table>
-   
+
 
     <table class="game-table">
 
@@ -33,12 +35,20 @@
     </table>
 
     <table class="game-header">
-        <th><div class="flags-count">14 🚩</div></th>
+        <th>
+            <div class="flags-count"> 🚩</div>
+        </th>
+    </table>
+    <table class="game-header">
+        <th><button class="hints-count" onclick="hintsClick(this)">🙈</button></th>
+        <th><button class="hints-count" onclick="hintsClick(this)">🙈</button></th>
+        <th><button class="hints-count" onclick="hintsClick(this)">🙈</button></th>
 
     </table>
     <br><br><br><br><br><br><br>
-<footer class="game-table"> developed by IRENE DUCHOVNY</footer>
-    <script src="js/main.js"></script>
+    <footer class="game-table"> developed by IRENE DUCHOVNY</footer>
+    <script src="js/utils.js"></script>
+    <script src="js/game.js"></script>
 
 
 
