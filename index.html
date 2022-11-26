@@ -5,52 +5,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine Sweeper</title>
+    <title>Minesweeper</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="media/mine_103202.ico" type="image/x-icon">
 </head>
 
-<body cent onload="initGame()">
-    <h1> Mine Sweeper </h1>
+<body onload="initGame()">
+    <h1> Minesweeper </h1>
+
+    <!-- board -->
+    <table class="game-header">
+        <th>
+            <div class="lives"> </div>
+        </th>
+        <th> <button class="restart-button" onclick="initGame()">😊</button></th>
+        <th>
+            <div class="game-time"> Time : 0 </div>
+        </th>
+    </table>
+
+    <table class="game-table">
+        <tbody class="board"></tbody>
+    </table>
+
+    <!-- flags & highscores counters -->
+    <table class="game-header">
+        <th>
+        <th class="flags-count"> 🚩 </th>
+        <th class="best-score"> 🏆 </th>
+        </th>
+    </table>
+
+    <!-- level buttons -->
     <table class="game-table">
         <th> <button onclick="setLevel(4,2,1)">Beginner</button></th>
         <th><button onclick="setLevel(8,14,3)">Medium</button></th>
         <th><button onclick="setLevel(12,32,3)">Expert</button></th>
     </table>
-    <table class="game-header">
-        <th>
-            <div class="lives"> </div>
-        </th>
-        <th> <button class="restart-button" onclick="initGame()">😊 </button></th>
-        <th>
-            <div class="game-time"> Time : 0 </div>
-        </th>
 
-    </table>
-
-
-    <table class="game-table">
-
-        <tbody class="board"></tbody>
-
-    </table>
-
-    <table class="game-header">
-        <th>
-            <div class="flags-count"> 🚩</div>
-        </th>
-    </table>
-    <table class="game-header">
+    <!-- Hints buttons : to be developed-->
+    <table class="game-header tooltip">
+        <th><button class="hints-count" onclick="hintsClick(this)">🙈
+                <span class="tooltiptext">HINTS: to be developed</span></button></th>
         <th><button class="hints-count" onclick="hintsClick(this)">🙈</button></th>
-        <th><button class="hints-count" onclick="hintsClick(this)">🙈</button></th>
-        <th><button class="hints-count" onclick="hintsClick(this)">🙈</button></th>
-
+        <th><button class="hints-count" onclick="hintsClick(this)">🙈
+            </button></th>
     </table>
-    <br><br><br><br><br><br><br>
-    <footer class="game-table"> developed by IRENE DUCHOVNY</footer>
+
+    <br><br><br><br>
+
+    <!-- sound effects -->
+    <audio class="expert-sound" src="media/expert-sound.m4a"> </audio>
+    <audio class="win-sound" src="media/winSound.mp3"> </audio>
+    <audio class="lose-sound" src="media/lose-sound.unknown"> </audio>
+
+    <footer class="game-table">developed by IRENE DUCHOVNY</footer>
+    
     <script src="js/utils.js"></script>
     <script src="js/game.js"></script>
-
-
 
 
 </body>

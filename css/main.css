@@ -1,30 +1,67 @@
-.game-time {
 
-    border: 5px;
-    border-color: black;
-    border-radius: 5px;
-    background-color: rgb(170, 154, 166);
-    height: 25px;
-    width: 90px;
-    font-size: 15px;
-    text-align: center;
-    padding: 5px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+@import url(https://fonts.googleapis.com/css2?family=Chakra+Petch);
+
+body {
+    background-color: #B7C4CF;  
 }
 
+h1 {
+    display: flex;
+    justify-content: center;
+    font-family: 'Chakra Petch';
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.game-header {
+    justify-content: center;
+    display: flex;
+    margin: 5px;
+}
+
+/* lives-button */
 .lives {
     border: 5px;
     border-color: black;
     border-radius: 5px;
-    background-color: rgb(170, 154, 166);
+    background-color:  #EEE3CB;
     height: 25px;
     width: 75px;
     font-size: 15px;
     text-align: center;
     padding: 5px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Chakra Petch';
 }
 
+/* time-button */
+.game-time {
+    border: 5px;
+    border-color: black;
+    border-radius: 5px;
+    background-color:   #EEE3CB;
+    height: 25px;
+    width: 90px;
+    font-size: 15px;
+    text-align: center;
+    padding: 5px;
+    font-family: 'Chakra Petch';
+}
+
+.game-table {
+    display: flex;
+    justify-content: center;
+}
+
+.flags-count{
+    padding-right: 10px;
+    font-family: 'Chakra Petch';
+  }
+
+  .best-score{
+    font-family: 'Chakra Petch';
+  }
+
+  /* mine exploads effect */
 .mine-boom {
     background-color: rgb(122, 57, 57);
     border-radius: 5px;
@@ -34,64 +71,79 @@
     border: 2px solid rgb(102, 102, 102);
 }
 
-body {
-
-    background-color: #B7C4CF;
-}
-
-h1 {
-    display: flex;
-    justify-content: center;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-}
-
 button {
     display: inline;
-    padding: 5px;
+    background-color:  #EEE3CB;
     border-radius: 5px;
-    border-color: rgb(170, 154, 166);
-
+    border: none;
+    padding: 6px;
+    font-family: 'Chakra Petch';
+    font-size: 16px;
     cursor: pointer;
 }
 
-.game-header {
-    justify-content: center;
-    display: flex;
-    margin: 5px;
+button:hover{
+    background-color:  #967E76;
 }
 
-.game-table {
-    display: flex;
-
-    justify-content: center;
-
-}
-
+/* boarder class */
 .notClickedCell {
-    /* border-radius: 5px; */
     width: 40px;
     height: 40px;
     text-align: center;
     background-color: #D7C0AE;
     border: 2px solid #EEE3CB;
     cursor: pointer;
-
 }
 
 .clickedCell {
-    /* border-radius: 5px; */
     width: 40px;
     height: 40px;
     text-align: center;
     background-color: #967E76;
     border: 2px solid rgb(102, 102, 102);
-
 }
 
-/* footer {
-    text-align: center;
-    padding: 3px;
-    background-color: DarkSalmon;
-    color: white;
-    animation: step-end;
-  } */
+
+  
+ /* sound effects */
+  .win-sound{
+    display: none;
+}
+
+.expert-sound{
+    display: none;
+}
+
+.lose-sound{
+    display: none;
+}
+
+
+.tooltip {
+  position: relative;
+}
+
+/* Hints */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  font-size: 12px;
+  background-color:#967E76 ;
+  opacity: 0.8;
+margin-top: 30px;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+
+
+
+  

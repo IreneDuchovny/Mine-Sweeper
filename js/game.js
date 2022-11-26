@@ -7,6 +7,7 @@ const LOSE = '🤯'
 const NORMAL = '😊'
 const EMPTY = ' '
 const HINT = '🙈'
+const BSCORE = '🏆'
 
 //global variables
 var gBoard
@@ -28,6 +29,7 @@ var gGame = {
 }
 
 var gMines = []
+var gbestScore = 0
 
 //functions
 function initGame() {
@@ -41,6 +43,8 @@ function initGame() {
         lives: gLevel.lives,
         hiddenMines: gLevel.mines
     }
+    //bug fix: move between high level to small level didnt update the new mine count 
+    gMines = []
     gBoard = undefined;
     gBoard = buildBoard()
     // console.table(gBoard)
@@ -58,6 +62,10 @@ function initUi() {
     //counts mines left to flag
     var elFlagsNum = document.querySelector('.flags-count')
     elFlagsNum.innerText = gGame.hiddenMines + ' ' + FLAG
+    //shows best score
+    var elBestScore = document.querySelector('.best-score')
+    elBestScore.innerText = localStorage.getItem(`bestScore${gLevel.size}`) + ' ' + BSCORE
+
 
     // console.log('gLevel.mines', gLevel.mines)
     //     var elHint= document.querySelector('hints-count')
@@ -89,7 +97,7 @@ function buildBoard() {
     return board
 }
 
-// randomly places mines on board
+//randomly places mines on board
 function placeMineRandom(board, forbiddenI, forbiddenJ) {
     //forbbides  mine placment on first click 
     for (var i = 0; i < gLevel.mines; i++) {
@@ -122,11 +130,10 @@ function renderBoard(board) {
                 cellContent = cell.icon
             } else if (cell.minesAroundCount > 0 && cell.isShown) {
                 cell.icon = cell.minesAroundCount
-                cellContent = cell.icon
+                cellContent = setColor(cell.icon)
             } else if (cell.isMarked && !cell.isShown) {
                 cellContent = FLAG
             }
-
 
             strHTML += `<td class="${className} ${cellClass}"
             onclick="CellClicked(this,${i},${j})" oncontextmenu="event.preventDefault();cellMarked(this,${i},${j})">
@@ -138,19 +145,32 @@ function renderBoard(board) {
     var elBoard = document.querySelector('.board')
     elBoard.innerHTML = strHTML
     var elLives = document.querySelector('.lives')
-    elLives.innerText = `lives: ${gGame.livesLeft}`
-
+    elLives.innerText = `Lives : ${gGame.livesLeft}`
+    var elBestScore = document.querySelector('.best-score')
+    if (localStorage.getItem(`bestScore${gLevel.size}`) === null) {
+        localStorage.setItem(`bestScore${gLevel.size}`, 0)
+    }
+    elBestScore.innerText = localStorage.getItem(`bestScore${gLevel.size}`) + ' ' + BSCORE
 
 
 }
-// defindes level parameters
+
+//defindes level parameters
 function setLevel(size, mines, lives) {
     gLevel.size = size
     gLevel.mines = mines
     gLevel.lives = lives
+    if (size === 12) {
+        var elExpertSound = document.querySelector('.expert-sound')
+        elExpertSound.play()
+    }
+    else {
+        var elExpertSound = document.querySelector('.expert-sound')
+        elExpertSound.pause()
+    }
     initGame()
-
 }
+
 //sets the mine negs counts
 function setMinesNegsCount() {
     // loop through the mines and calculates negs
@@ -169,6 +189,7 @@ function setMinesNegsCount() {
         }
     }
 }
+
 //opens all cell if no mine around and repeats until no empty cells
 function expandShown(gBoard, elCell, i, j) {
     // console.log('board expandShown', gBoard)
@@ -236,7 +257,6 @@ function cellMarked(elcell, i, j) {
     }
     checkGameOver()
 }
-
 //TODO:showHintArea(true)
 //when cell is clicked the function :starts timer,reveal cell/s if possible,checks if game over
 function CellClicked(elCell, i, j) {
@@ -274,7 +294,8 @@ function CellClicked(elCell, i, j) {
             // Decrease  total mines to find after allowed reveal (lives > 0)
             gGame.hiddenMines--
             var elFlagsNum = document.querySelector('.flags-count')
-            elFlagsNum.innerText = (gGame.hiddenMines - gGame.markedCount) + ' ' + FLAG
+            //bug fix: flags count never goes negetive
+            elFlagsNum.innerText = ((gGame.hiddenMines - gGame.markedCount) < 0) ? 0 + ' ' + FLAG : (gGame.hiddenMines - gGame.markedCount) + ' ' + FLAG
 
         }
 
@@ -289,6 +310,38 @@ function CellClicked(elCell, i, j) {
     checkGameOver()
     // console.log('elCell', elCell)
 }
+
+//calculates best played score for each board
+function bestScore() {
+    if (gbestScore > gGame.secsPassed) {
+        gbestScore = gGame.secsPassed - 1
+        localStorage.setItem(`bestScore${gLevel.size}`, gbestScore);
+    }
+    else if (gbestScore === 0) {
+        gbestScore = gGame.secsPassed - 1
+        localStorage.setItem(`bestScore${gLevel.size}`, gbestScore);
+    }
+
+}
+
+//sets individual colors for minesaround nums (1-3)
+function setColor(number) {
+    switch (number) {
+        case 1:
+            return `<span style="color:blue" >${number}</span>`
+            break;
+        case 2:
+            return `<span style="color:yellow" >${number}</span>`
+            break;
+        case 3:
+            return `<span style="color:green" >${number}</span>`
+            break;
+        default:
+            return `<span style="color:black" >${number}</span>`
+            break;
+    }
+}
+
 //checks if all hidden mines were caught
 function checkGameOver() {
     var exShownCells = gLevel.size * gLevel.size - gGame.hiddenMines
@@ -297,14 +350,17 @@ function checkGameOver() {
     }
 }
 
-//wins and ends game with icon
+//wins and ends game with icon and sound
 function gameWin() {
     var elWinBtn = document.querySelector('.restart-button')
     elWinBtn.innerText = WIN
     gGame.isOn = false
+    var elGameWinSound = document.querySelector('.win-sound')
+    elGameWinSound.play()
     clearInterval(gInterval)
+    bestScore()
 }
-//ends game after lost, opens mines on board and ends the game with icon
+//ends game after lost, opens mines on board and ends the game with icon and sound
 function gameOver() {
     for (var k = 0; k < gMines.length; k++) {
         var rowIdx = gMines[k].i
@@ -318,15 +374,21 @@ function gameOver() {
     var elRestartBtn = document.querySelector('.restart-button')
     elRestartBtn.innerText = LOSE
     gGame.isOn = false
+    var elGameloseSound = document.querySelector('.lose-sound')
+    elGameloseSound.play()
+    var elExpertSound = document.querySelector('.expert-sound')
+    elExpertSound.pause()
     clearInterval(gInterval)
 }
 
+//counts time playing every round
 function gameTimer() {
     var elTimeLabel = document.querySelector(".game-time");
     elTimeLabel.innerText = 'Time : ' + gGame.secsPassed
     ++gGame.secsPassed
 
 }
+//HINTS: to be developed
 function hintsClick(elHint) {
     gGame.isHint = true
     elHint.innerText = '🙉'
